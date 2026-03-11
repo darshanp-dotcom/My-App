@@ -1,26 +1,51 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fff8f2; /* Soft Cream */
+  --foreground: #2c2c2c; /* Dark Espresso */
+
+  --bm-orange: #ff671f;
+  --bm-pink: #da1884;
+  --bm-brown: #6f4e37;
+  --bm-success: #3cb371;
+  --bm-danger: #e63946;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  --color-bm-orange: var(--bm-orange);
+  --color-bm-pink: var(--bm-pink);
+  --color-bm-brown: var(--bm-brown);
+  --color-bm-success: var(--bm-success);
+  --color-bm-danger: var(--bm-danger);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Keep the BrewManager palette consistent across themes */
+    --background: #fff8f2;
+    --foreground: #2c2c2c;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+button,
+nav a {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
 }
