@@ -9,6 +9,14 @@ import db from "../../lib/db";
 import { inventoryCategories, inventoryItems } from "../../lib/inventory";
 
 export default function OrdersPage() {
+  return (
+    <RequireAuth>
+      <OrdersInner />
+    </RequireAuth>
+  );
+}
+
+function OrdersInner() {
   const user = db.useUser();
   const { isLoading, error, data } = db.useQuery({
     orders: { $: { where: { userId: user.id } } },
@@ -19,132 +27,115 @@ export default function OrdersPage() {
     .sort((a, b) => b.createdAt - a.createdAt);
 
   return (
-    <RequireAuth>
-      <AppShell
-        title="NDCP orders"
-        subtitle="Plan your donut case and track NDCP category totals."
-      >
-        <div className="grid gap-4 xl:grid-cols-[minmax(360px,420px)_minmax(0,1.2fr)]">
-          <div className="space-y-4">
-            <Card>
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <div className="text-xs font-semibold text-black/60">
-                    NDCP portal
-                  </div>
-                  <div className="mt-1 text-sm text-black/60">
-                    Open NDCP in another tab to place your actual order, then
-                    save the breakdown here.
-                  </div>
-                </div>
-                <a
-                  href="https://www.ndcp.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex"
-                >
-                  <Button variant="secondary">Open NDCP ↗</Button>
-                </a>
-              </div>
-            </Card>
-
-            <OrderForm userId={user.id} />
-          </div>
-
+    <AppShell
+      title="NDCP orders"
+      subtitle="Plan your donut case and track NDCP category totals."
+    >
+      <div className="grid gap-4 xl:grid-cols-[minmax(360px,420px)_minmax(0,1.2fr)]">
+        <div className="space-y-4">
           <Card>
-            <div className="text-xs font-semibold text-black/60">
-              Donut case planning
-            </div>
-            <div className="mt-1 text-sm text-black/60">
-              Use this to sketch your donut order and case plan before you jump
-              into NDCP. It does not place an order—just keeps things organized.
-            </div>
-
-            <DonutPlanner />
-
-            <div className="mt-6 border-t border-black/10 pt-3">
-              <div className="text-xs font-semibold text-black/60">
-                Saved NDCP orders
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <div className="text-xs font-semibold text-black/60">
+                  NDCP portal
+                </div>
+                <div className="mt-1 text-sm text-black/60">
+                  Open NDCP in another tab to place your actual order, then save
+                  the breakdown here.
+                </div>
               </div>
-              <div className="mt-1 text-sm text-black/60">
-                Keep a history so you can compare week-to-week.
-              </div>
-
-              {isLoading ? (
-                <div className="mt-4 text-sm text-black/60">Loading…</div>
-              ) : error ? (
-                <div className="mt-4 rounded-xl bg-bm-danger/10 px-3 py-2 text-sm text-bm-danger">
-                  {error.message}
-                </div>
-              ) : orders.length === 0 ? (
-                <div className="mt-4 rounded-xl border border-black/10 bg-white px-3 py-2 text-sm text-black/60">
-                  No orders yet. Add one using the form on the left.
-                </div>
-              ) : (
-                <div className="mt-4 space-y-3">
-                  {orders.slice(0, 15).map((o) => (
-                    <div
-                      key={o.id}
-                      className="rounded-2xl border border-black/10 bg-white p-4"
-                    >
-                      <div className="flex flex-wrap items-start justify-between gap-2">
-                        <div>
-                          <div className="text-xs font-semibold text-black/50">
-                            {new Date(o.createdAt).toLocaleString()}
-                          </div>
-                          <div className="mt-1 text-lg font-extrabold font-mono">
-                            ${o.total}
-                          </div>
-                        </div>
-                        <Button
-                          variant="danger"
-                          onClick={() =>
-                            db.transact(db.tx.orders[o.id].delete())
-                          }
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-6">
-                        <Mini label="Food" val={o.foodCost} total={o.total} />
-                        <Mini label="Dairy" val={o.dairy} total={o.total} />
-                        <Mini label="Retail" val={o.retail} total={o.total} />
-                        <Mini
-                          label="Paper"
-                          val={o.paperGoods}
-                          total={o.total}
-                        />
-                        <Mini
-                          label="Cleaning"
-                          val={o.cleaning}
-                          total={o.total}
-                        />
-                        <Mini
-                          label="Total"
-                          val={o.total}
-                          total={o.total}
-                          strong
-                        />
-                      </div>
-                      {o.itemsText ? (
-                        <div className="mt-3 rounded-2xl border border-black/10 bg-[color:var(--background)] p-3">
-                          <div className="text-xs font-semibold text-black/60">
-                            Inventory items (saved with order)
-                          </div>
-                          <pre className="mt-2 whitespace-pre-wrap text-xs text-black/70">
-                            {o.itemsText}
-                          </pre>
-                        </div>
-                      ) : null}
-                    </div>
-                  ))}
-                </div>
-              )}
+              <a
+                href="https://www.ndcp.com"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex"
+              >
+                <Button variant="secondary">Open NDCP ↗</Button>
+              </a>
             </div>
           </Card>
+
+          <OrderForm userId={user.id} />
         </div>
-      </AppShell>
-    </RequireAuth>
+
+        <Card>
+          <div className="text-xs font-semibold text-black/60">
+            Donut case planning
+          </div>
+          <div className="mt-1 text-sm text-black/60">
+            Use this to sketch your donut order and case plan before you jump
+            into NDCP. It does not place an order—just keeps things organized.
+          </div>
+
+          <DonutPlanner />
+
+          <div className="mt-6 border-t border-black/10 pt-3">
+            <div className="text-xs font-semibold text-black/60">
+              Saved NDCP orders
+            </div>
+            <div className="mt-1 text-sm text-black/60">
+              Keep a history so you can compare week-to-week.
+            </div>
+
+            {isLoading ? (
+              <div className="mt-4 text-sm text-black/60">Loading…</div>
+            ) : error ? (
+              <div className="mt-4 rounded-xl bg-bm-danger/10 px-3 py-2 text-sm text-bm-danger">
+                {error.message}
+              </div>
+            ) : orders.length === 0 ? (
+              <div className="mt-4 rounded-xl border border-black/10 bg-white px-3 py-2 text-sm text-black/60">
+                No orders yet. Add one using the form on the left.
+              </div>
+            ) : (
+              <div className="mt-4 space-y-3">
+                {orders.slice(0, 15).map((o) => (
+                  <div
+                    key={o.id}
+                    className="rounded-2xl border border-black/10 bg-white p-4"
+                  >
+                    <div className="flex flex-wrap items-start justify-between gap-2">
+                      <div>
+                        <div className="text-xs font-semibold text-black/50">
+                          {new Date(o.createdAt).toLocaleString()}
+                        </div>
+                        <div className="mt-1 text-lg font-extrabold font-mono">
+                          ${o.total}
+                        </div>
+                      </div>
+                      <Button
+                        variant="danger"
+                        onClick={() => db.transact(db.tx.orders[o.id].delete())}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                    <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-6">
+                      <Mini label="Food" val={o.foodCost} total={o.total} />
+                      <Mini label="Dairy" val={o.dairy} total={o.total} />
+                      <Mini label="Retail" val={o.retail} total={o.total} />
+                      <Mini label="Paper" val={o.paperGoods} total={o.total} />
+                      <Mini label="Cleaning" val={o.cleaning} total={o.total} />
+                      <Mini label="Total" val={o.total} total={o.total} strong />
+                    </div>
+                    {o.itemsText ? (
+                      <div className="mt-3 rounded-2xl border border-black/10 bg-[color:var(--background)] p-3">
+                        <div className="text-xs font-semibold text-black/60">
+                          Inventory items (saved with order)
+                        </div>
+                        <pre className="mt-2 whitespace-pre-wrap text-xs text-black/70">
+                          {o.itemsText}
+                        </pre>
+                      </div>
+                    ) : null}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </Card>
+      </div>
+    </AppShell>
   );
 }
 
