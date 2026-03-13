@@ -79,6 +79,93 @@ const modules: Module[] = [
       correct: "Use portion tools and do quick waste logs",
     },
   },
+  {
+    slug: "drive-thru-experience",
+    title: "Drive‑Thru Experience",
+    description: "Simple habits that keep the drive‑thru fast and friendly.",
+    steps: [
+      "Greet within 3 seconds with a friendly, consistent opener.",
+      "Repeat the order back and confirm any customizations.",
+      "Give a clear total before the guest reaches the window.",
+      "Hand out drinks and food in the order they’ll be used (hot first, then cold).",
+    ],
+    quiz: {
+      question: "What’s the strongest habit for a smooth drive‑thru?",
+      options: [
+        "Wait to greet until the guest finishes talking",
+        "Repeat the order back and confirm customizations",
+        "Skip repeating orders to save time",
+        "Only focus on speed, not accuracy",
+      ],
+      correct: "Repeat the order back and confirm customizations",
+    },
+  },
+  {
+    slug: "guest-recovery",
+    title: "Guest Recovery Basics",
+    description: "Turn a miss into a loyal guest with a simple play.",
+    steps: [
+      "Listen fully and thank the guest for telling you.",
+      "Repeat back the issue so they know you heard them.",
+      "Fix it fast with a clear plan (remake or refund).",
+      "End with a genuine thanks and an invite to return.",
+    ],
+    quiz: {
+      question: "What’s the first move when a guest is upset?",
+      options: [
+        "Explain why the team is busy",
+        "Listen fully and thank them for telling you",
+        "Ask them to come back later",
+        "Point out the posted policy",
+      ],
+      correct: "Listen fully and thank them for telling you",
+    },
+  },
+  {
+    slug: "new-hire-onboarding",
+    title: "New Hire Onboarding",
+    description: "Give new team members a confident first week.",
+    steps: [
+      "Set up a simple 3‑day plan (shadow, practice, solo with support).",
+      "Start with one station instead of everything at once.",
+      "Pair them with a patient trainer and clear checklists.",
+      "Check in at the end of each shift: wins, questions, next focus.",
+    ],
+    quiz: {
+      question: "What’s the best way to start a brand‑new hire?",
+      options: [
+        "Put them wherever the store needs help most",
+        "Start with one station and a simple 3‑day plan",
+        "Let them watch videos only",
+        "Have them learn by trial and error during rush",
+      ],
+      correct: "Start with one station and a simple 3‑day plan",
+    },
+  },
+];
+
+type VideoResource = {
+  title: string;
+  description: string;
+  url: string;
+};
+
+const videoResources: VideoResource[] = [
+  {
+    title: "Dunkin brand overview",
+    description: "Big‑picture look at the brand and guest promise.",
+    url: "https://www.youtube.com/results?search_query=dunkin+brand+training",
+  },
+  {
+    title: "Drive‑thru and window standards",
+    description: "Examples of great drive‑thru flow and greetings.",
+    url: "https://www.youtube.com/results?search_query=dunkin+drive+thru+training",
+  },
+  {
+    title: "Food safety and product handling",
+    description: "Core safety and handling reminders for your crew.",
+    url: "https://www.youtube.com/results?search_query=food+safety+training",
+  },
 ];
 
 export default function TrainingPage() {
@@ -112,15 +199,42 @@ function TrainingInner() {
           {error.message}
         </div>
       ) : (
-        <div className="grid gap-4 lg:grid-cols-2">
-          {modules.map((m) => (
-            <ModuleCard
-              key={m.slug}
-              module={m}
-              lastAttempt={lastByModule.get(m.slug)}
-              userId={user.id}
-            />
-          ))}
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(260px,2fr)]">
+          <div className="space-y-4">
+            <Card>
+              <div className="text-xs font-semibold text-black/60">
+                How to use this page
+              </div>
+              <div className="mt-1 text-sm text-black/70">
+                Pick one module for today, walk the steps with your shift leads,
+                then have them take the quick quiz at the bottom. Short + simple
+                is better than a huge training day.
+              </div>
+            </Card>
+
+            <Card>
+              <div className="text-xs font-semibold text-black/60">
+                Core modules
+              </div>
+              <div className="mt-1 text-sm text-black/70">
+                Work through one module at a time. Each one gives you a short
+                playbook plus a quick quiz for your leads.
+              </div>
+            </Card>
+
+            <div className="space-y-4">
+              {modules.map((m) => (
+                <ModuleCard
+                  key={m.slug}
+                  module={m}
+                  lastAttempt={lastByModule.get(m.slug)}
+                  userId={user.id}
+                />
+              ))}
+            </div>
+          </div>
+
+          <TrainingSidebar />
         </div>
       )}
     </AppShell>
@@ -221,6 +335,55 @@ function ModuleCard({
         ) : null}
       </div>
     </Card>
+  );
+}
+
+function TrainingSidebar() {
+  return (
+    <div className="space-y-4">
+      <Card>
+        <div className="text-xs font-semibold text-black/60">
+          Training videos
+        </div>
+        <div className="mt-1 text-lg font-extrabold tracking-tight">
+          Watch together, then practice
+        </div>
+        <div className="mt-1 text-sm text-black/60">
+          Use these videos as a quick huddle: watch, pick 1–2 takeaways, and
+          add them into today’s shift.
+        </div>
+
+        <div className="mt-3 space-y-2">
+          {videoResources.map((v) => (
+            <a
+              key={v.title}
+              href={v.url}
+              target="_blank"
+              rel="noreferrer"
+              className="block rounded-2xl border border-black/10 bg-white p-3 hover:bg-black/5 transition"
+            >
+              <div className="text-sm font-extrabold text-bm-brown">
+                {v.title}
+              </div>
+              <div className="mt-1 text-xs text-black/60">{v.description}</div>
+              <div className="mt-1 text-[11px] font-semibold text-bm-orange">
+                Open video ↗
+              </div>
+            </a>
+          ))}
+        </div>
+      </Card>
+
+      <Card>
+        <div className="text-xs font-semibold text-black/60">
+          Tip for managers
+        </div>
+        <div className="mt-1 text-sm text-black/70">
+          Rotate modules through the week instead of doing everything in one
+          meeting. A 10‑minute huddle before peak can change the whole shift.
+        </div>
+      </Card>
+    </div>
   );
 }
 

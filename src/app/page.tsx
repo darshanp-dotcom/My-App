@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import AppShell from "../components/AppShell";
 import RequireAuth from "../components/RequireAuth";
@@ -50,14 +51,40 @@ function Dashboard() {
           <div className="space-y-4">
             <Card className="overflow-hidden p-0">
               <div className="p-4 sm:p-5 bg-gradient-to-r from-bm-orange/20 via-bm-pink/10 to-bm-brown/10">
-                <div className="text-xs font-semibold text-black/60">
-                  Welcome
-                </div>
-                <div className="mt-1 text-2xl font-extrabold tracking-tight">
-                  {user.email?.split("@")[0] ? `Welcome, ${user.email.split("@")[0]}!` : "Welcome!"}
-                </div>
-                <div className="mt-1 text-sm text-black/60">
-                  Quick links for today’s shift: checklist, numbers, and orders.
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div>
+                    <div className="text-xs font-semibold text-black/60">
+                      Welcome
+                    </div>
+                    <div className="mt-1 text-2xl font-extrabold tracking-tight">
+                      {user.email?.split("@")[0] ? `Welcome, ${user.email.split("@")[0]}!` : "Welcome!"}
+                    </div>
+                    <div className="mt-1 text-sm text-black/60">
+                      Quick links for today’s shift: checklist, numbers, and orders.
+                    </div>
+                  </div>
+                  <div className="shrink-0 rounded-2xl bg-white/80 px-3 py-2">
+                    <div className="text-xl font-extrabold tracking-tight">
+                      <span className="text-[color:var(--bm-orange,#f58220)]">
+                        D
+                      </span>
+                      <span className="text-[color:var(--bm-pink,#ff6bb5)]">
+                        U
+                      </span>
+                      <span className="text-[color:var(--bm-orange,#f58220)]">
+                        N
+                      </span>
+                      <span className="text-[color:var(--bm-pink,#ff6bb5)]">
+                        K
+                      </span>
+                      <span className="text-[color:var(--bm-orange,#f58220)]">
+                        I
+                      </span>
+                      <span className="text-[color:var(--bm-orange,#f58220)]">
+                        N
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
                   <Link href="/checklist">
@@ -206,6 +233,93 @@ function Dashboard() {
             </Card>
 
             <Card>
+              <div className="text-xs font-semibold text-black/60">
+                Important links
+              </div>
+              <div className="mt-1 text-sm text-black/60">
+                Quick access to the tools you use every week. These open in a
+                new tab.
+              </div>
+              <div className="mt-3 space-y-2 text-sm">
+                <a
+                  href="https://app.supplyit.com/Location/Home/Index"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block rounded-xl border border-black/10 bg-white px-3 py-2 hover:bg-black/5"
+                >
+                  <div className="font-semibold">SupplyIt – Donut ordering</div>
+                  <div className="text-[11px] text-black/50">
+                    Order donuts and related products (weekly, before 4 pm).
+                  </div>
+                </a>
+                <a
+                  href="https://nationaldcp.com/MyNDCP"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block rounded-xl border border-black/10 bg-white px-3 py-2 hover:bg-black/5"
+                >
+                  <div className="font-semibold">MyNDCP – Truck orders</div>
+                  <div className="text-[11px] text-black/50">
+                    Place and review DCP truck orders.
+                  </div>
+                </a>
+                <a
+                  href="https://docs.google.com/spreadsheets/d/1r99PzCIKlOAj64EX1nlkUf2t0HhgkRzO/edit?gid=1002198070#gid=1002198070"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block rounded-xl border border-black/10 bg-white px-3 py-2 hover:bg-black/5"
+                >
+                  <div className="font-semibold">
+                    Daily Cash Report – Google Sheet
+                  </div>
+                  <div className="text-[11px] text-black/50">
+                    Enter daily cash deposits and over/shorts.
+                  </div>
+                </a>
+                <a
+                  href="https://sso.inspirepartners.net/app/inspirepartners_adobeexperiencemanager_1/exk2mn85ssDid0y6q697/sso/saml"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block rounded-xl border border-black/10 bg-white px-3 py-2 hover:bg-black/5"
+                >
+                  <div className="font-semibold">The Center – Training</div>
+                  <div className="text-[11px] text-black/50">
+                    Brand training, e‑modules, and updates.
+                  </div>
+                </a>
+                <a
+                  href="https://dun01-ohra-prod-dun.hospitality.oracleindustry.com/login.jsp"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block rounded-xl border border-black/10 bg-white px-3 py-2 hover:bg-black/5"
+                >
+                  <div className="font-semibold">Oracle – Labor & scheduling</div>
+                  <div className="text-[11px] text-black/50">
+                    Labor tools and scheduling portal.
+                  </div>
+                </a>
+                <a
+                  href="https://employers.indeed.com/jobs?claimed=false&createdOnIndeed=true&tab=0&status=open%2Cpaused"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block rounded-xl border border-black/10 bg-white px-3 py-2 hover:bg-black/5"
+                >
+                  <div className="font-semibold">Indeed – Hiring</div>
+                  <div className="text-[11px] text-black/50">
+                    Postings, applicants, and interviews.
+                  </div>
+                </a>
+                <div className="rounded-xl border border-dashed border-black/15 bg-white px-3 py-2">
+                  <div className="font-semibold">Hours schedule screenshot</div>
+                  <div className="mt-1 text-[11px] text-black/50">
+                    Pin your latest hours/schedule image here or keep it in your
+                    drive; this card is a reminder to keep it updated.
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            <Card>
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <div className="text-xs font-semibold text-black/60">
@@ -225,6 +339,8 @@ function Dashboard() {
                 <KeyDateRow date="Apr 15" title="Schedule review" />
               </div>
             </Card>
+
+            <DunkinNewsCard />
 
             <Card>
               <div className="text-xs font-semibold text-black/60">
@@ -268,6 +384,143 @@ function Stat({
         {value}
       </div>
     </div>
+  );
+}
+
+type DunkinNewsItem = {
+  title: string;
+  link: string;
+  pubDate?: string;
+};
+
+function DunkinNewsCard() {
+  const [news, setNews] = useState<DunkinNewsItem[] | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const res = await fetch("/api/dunkin-news");
+        if (!res.ok) {
+          throw new Error("Failed to load Dunkin news");
+        }
+        const json = await res.json();
+        if (!cancelled) {
+          setNews(json.items ?? []);
+        }
+      } catch (err: any) {
+        if (!cancelled) {
+          setError(err?.message ?? "Could not load Dunkin news right now.");
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    load();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const items = news?.slice(0, 3) ?? [];
+  const topLink = items[0]?.link;
+  const encodedTopLink = topLink ? encodeURIComponent(topLink) : null;
+
+  const linkedinShareUrl = encodedTopLink
+    ? `https://www.linkedin.com/sharing/share-offsite/?url=${encodedTopLink}`
+    : "https://www.linkedin.com/";
+  const xShareUrl = encodedTopLink
+    ? `https://twitter.com/intent/tweet?url=${encodedTopLink}`
+    : "https://x.com/";
+  const facebookShareUrl = encodedTopLink
+    ? `https://www.facebook.com/sharer/sharer.php?u=${encodedTopLink}`
+    : "https://www.facebook.com/";
+
+  return (
+    <Card>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <div className="text-xs font-semibold text-black/60">
+            Daily Dunkin news
+          </div>
+          <div className="mt-1 text-lg font-extrabold tracking-tight">
+            What’s happening brand‑wide
+          </div>
+          <div className="mt-1 text-sm text-black/60">
+            Quick headlines from Dunkin’s official news feed so you can share
+            updates with your team.
+          </div>
+        </div>
+        <Link
+          href="https://news.dunkindonuts.com/news"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Button variant="secondary">Open news site</Button>
+        </Link>
+      </div>
+
+      <div className="mt-4 space-y-2">
+        {isLoading ? (
+          <div className="text-sm text-black/60">Loading latest headlines…</div>
+        ) : error ? (
+          <div className="rounded-xl bg-bm-danger/10 px-3 py-2 text-sm text-bm-danger">
+            {error}
+          </div>
+        ) : items.length === 0 ? (
+          <div className="text-sm text-black/60">
+            No recent headlines found. Try again later.
+          </div>
+        ) : (
+          items.map((item) => (
+            <div
+              key={item.link}
+              className="rounded-2xl border border-black/10 bg-white p-3"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm font-extrabold text-bm-brown hover:underline"
+                >
+                  {item.title}
+                </a>
+                {item.pubDate ? (
+                  <div className="text-[11px] font-semibold text-black/50">
+                    {new Date(item.pubDate).toLocaleDateString()}
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="mt-4 space-y-1">
+        <div className="text-[11px] font-semibold text-black/50">
+          Share today’s top story
+        </div>
+        <div className="mt-1 flex flex-wrap gap-2">
+          <Link href={linkedinShareUrl} target="_blank" rel="noreferrer">
+            <Button variant="secondary">Share on LinkedIn</Button>
+          </Link>
+          <Link href={xShareUrl} target="_blank" rel="noreferrer">
+            <Button variant="secondary">Share on X</Button>
+          </Link>
+          <Link href={facebookShareUrl} target="_blank" rel="noreferrer">
+            <Button variant="secondary">Share on Facebook</Button>
+          </Link>
+        </div>
+      </div>
+    </Card>
   );
 }
 

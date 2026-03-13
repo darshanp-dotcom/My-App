@@ -122,17 +122,6 @@ export default function AppShell({
                       aria-label="Search"
                     />
                   </div>
-                  <div className="hidden sm:flex items-center gap-2">
-                    <span className="rounded-full bg-white border border-black/10 px-3 py-1 text-xs font-semibold text-black/60">
-                      Reporting
-                    </span>
-                    <span className="rounded-full bg-white border border-black/10 px-3 py-1 text-xs font-semibold text-black/60">
-                      Learning Path
-                    </span>
-                    <span className="rounded-full bg-white border border-black/10 px-3 py-1 text-xs font-semibold text-black/60">
-                      Readiness
-                    </span>
-                  </div>
                 </div>
               </Card>
             </div>
